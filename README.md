@@ -2,6 +2,7 @@
 #### Source: https://github.com/chriszf/Hackbright-Curriculum
 
 - Working through Hackbright exercises
+
 -- Exercise 01: Conditionals & variables
 -- Exercise 02: Math & functions
 -- Exercise 03: Interfaces & main loops
