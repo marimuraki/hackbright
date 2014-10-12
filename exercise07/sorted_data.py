@@ -13,19 +13,31 @@ Your job is to write a program named 'sorted_data.py' reads the file, then spits
 
 from sys import argv
 
-script, filename = argv
+def create_dict(filetext):
 
-f = open(filename)
-filetext = f.readlines()
+	scores_dict = {}
 
-scores_dict = {}
+	for line in filetext:
+		stripline = line.strip()
+		splitline = stripline.split(':')
+		scores_dict[splitline[0]] = int(splitline[1])
 
-for line in filetext:
-	stripline = line.strip()
-	splitline = stripline.split(':')
-	scores_dict[splitline[0]] = int(splitline[1])
+	return scores_dict
 
-for key in sorted(scores_dict.iterkeys()):
-	print "Restaurant '%s' is rated at %d." %(key, scores_dict[key])
+def print_scores(scores_dict):
+	for key in sorted(scores_dict.iterkeys()):
+		print "Restaurant '%s' is rated at %d." %(key, scores_dict[key])
 
+def main():
 
+	script, filename = argv
+
+	f = open(filename)
+	filetext = f.readlines()
+
+	scores_dict = create_dict(filetext)
+
+	print_scores(scores_dict)
+
+if __name__ == "__main__":
+	main()
