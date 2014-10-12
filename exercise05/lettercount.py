@@ -13,20 +13,32 @@ Write a program, lettercount.py, that opens a file named on the command line and
 from sys import argv
 import string
 
-script, filename = argv
+def count_alphabet(filetext):
+	lowertext = filetext.lower()
 
-f = open(filename)
-filetext = f.read()
-lowertext = filetext.lower()
+	alphabet = list(string.ascii_lowercase)
 
-alphabet = list(string.ascii_lowercase)
+	alphabet_dict = {}
 
-alphabet_dict = {}
+	for letter in alphabet:
+		alphabet_dict[letter] = lowertext.count(letter)
 
-for letter in alphabet:
-	alphabet_dict[letter] = lowertext.count(letter)
+	return alphabet_dict
 
-for key, value in alphabet_dict.iteritems():
-	print key, value
+def print_counts(alphabet_dict):
+	for key, value in alphabet_dict.iteritems():
+		print key, value
 
-f.close()
+def main():
+	script, filename = argv
+
+	f = open(filename)
+	filetext = f.read()
+
+	alphabet_dict = count_alphabet(filetext)
+	print_counts(alphabet_dict)
+
+	f.close()
+
+if __name__ == "__main__":
+	main()
