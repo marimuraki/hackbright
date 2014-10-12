@@ -14,56 +14,72 @@ from sys import argv
 import string
 from operator import itemgetter
 
-script, filename = argv
+def identify_words(filetext):
 
-print "Counting words ..."
+	"""
+	Replace "-" with " "
+	e.g. "epochs--and", "smiled--not", "suppose--or", etc
+	"""
 
-f = open(filename)
-filetext = f.read()
+	filetext = filetext.replace('-',' ')
 
-"""
-Replace "-" with " "
-e.g. "epochs--and", "smiled--not", "suppose--or", etc
-"""
+	"""
+	Exclude punctuation
 
-filetext = filetext.replace('-',' ')
+	set(['!', '#', '"', '%', '$', "'", '&', ')', '(', '+', '*', '-', ',', '/', '.', ';', ':', '=', '<', '?', '>', '@', '[', ']', '\\', '_', '^', '`', '{', '}', '|', '~'])
+	"""
 
-"""
-Exclude punctuation
+	exclude = set(string.punctuation)
+	striptext = ''.join(char for char in filetext if char not in exclude)
 
-set(['!', '#', '"', '%', '$', "'", '&', ')', '(', '+', '*', '-', ',', '/', '.', ';', ':', '=', '<', '?', '>', '@', '[', ']', '\\', '_', '^', '`', '{', '}', '|', '~'])
-"""
+	lowertext = striptext.lower()
 
-exclude = set(string.punctuation)
-striptext = ''.join(char for char in filetext if char not in exclude)
+	word_list = set(lowertext.split())
 
-lowertext = striptext.lower()
+	return lowertext, word_list
 
-word_list = set(lowertext.split())
+def create_dictionary(lowertext, word_list):
+	word_dict = {}
 
-word_dict = {}
+	for word in word_list:
+		word_dict[word] = lowertext.count(word)
 
-for word in word_list:
-	word_dict[word] = lowertext.count(word)
+	return word_dict
 
-# Print results
-# for key, value in word_dict.iteritems():
-#	print key, value
+def print_words(word_dict):
+	
+	sort_by = raw_input("> ")
+	
+	if sort_by == 'alpha':
+		for key in sorted(word_dict.iterkeys()):
+			print key, word_dict[key]
+	elif sort_by == 'desc':
+		sorted_keys = sorted(word_dict.items(), key=itemgetter(1), reverse=True)
+		for key, value in sorted_keys:
+			print key, value
+	elif sort_by == 'asc':
+	#	sorted(dict.iteritems(), key=lambda (k,v): (v,k))
+		sorted_keys = sorted(word_dict.items(), key=itemgetter(1))
+		for key, value in sorted_keys:
+			print key, value
 
-print "Sort by alphabet > alpha OR Sort by count desc > desc OR Sort by count asc > asc"
-sort_by = raw_input("> ")
+def main():
 
-if sort_by == 'alpha':
-	for key in sorted(word_dict.iterkeys()):
-		print key, word_dict[key]
-elif sort_by == 'desc':
-	sorted_keys = sorted(word_dict.items(), key=itemgetter(1), reverse=True)
-	for key, value in sorted_keys:
-		print key, value
-elif sort_by == 'asc':
-#	sorted(dict.iteritems(), key=lambda (k,v): (v,k))
-	sorted_keys = sorted(word_dict.items(), key=itemgetter(1))
-	for key, value in sorted_keys:
-		print key, value
+	script, filename = argv
 
-f.close()
+	print "Counting words ..."
+
+	f = open(filename)
+	filetext = f.read()
+
+	lowertext, word_list = identify_words(filetext)
+	word_dict = create_dictionary(lowertext, word_list)
+
+	print "Sort by alphabet > alpha OR Sort by count desc > desc OR Sort by count asc > asc"
+
+	print_words(word_dict)
+
+	f.close()
+
+if __name__ == "__main__":
+	main()	
