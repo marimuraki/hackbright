@@ -1,0 +1,19 @@
+Hello, my name is Mari. 
+
+What is your name?
+
+My name is Octocat.
+
+Nice to meet you!
+
+What are your plans for the weekend?
+
+I think I will pick up Python.
+
+That sounds fun! You?
+
+I think I will pick up cupcakes.
+
+That sounds yummy!
+
+I think I will pick up carrots.
