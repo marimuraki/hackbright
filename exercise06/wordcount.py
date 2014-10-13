@@ -14,7 +14,7 @@ from sys import argv
 import string
 from operator import itemgetter
 
-def identify_words(filetext):
+def strip_words(filetext):
 
 	"""
 	Replace "-" with " "
@@ -26,11 +26,15 @@ def identify_words(filetext):
 	"""
 	Exclude punctuation
 
-	set(['!', '#', '"', '%', '$', "'", '&', ')', '(', '+', '*', '-', ',', '/', '.', ';', ':', '=', '<', '?', '>', '@', '[', ']', '\\', '_', '^', '`', '{', '}', '|', '~'])
+	'!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~'
+
+	http://stackoverflow.com/questions/265960/best-way-to-strip-punctuation-from-a-string-in-python
+	
 	"""
 
-	exclude = set(string.punctuation)
-	striptext = ''.join(char for char in filetext if char not in exclude)
+	return filetext.translate(string.maketrans("",""), string.punctuation)
+
+def identify_words(striptext):
 
 	lowertext = striptext.lower()
 
@@ -72,7 +76,8 @@ def main():
 	f = open(filename)
 	filetext = f.read()
 
-	lowertext, word_list = identify_words(filetext)
+	striptext = strip_words(filetext)
+	lowertext, word_list = identify_words(striptext)
 	word_dict = create_dictionary(lowertext, word_list)
 
 	print "Sort by alphabet > alpha OR Sort by count desc > desc OR Sort by count asc > asc"
