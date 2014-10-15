@@ -63,7 +63,18 @@ def palindrome(some_string):
 # return the final dimensions of the sheet as a tuple. 
 # Assume that you always fold in half along the longest edge of the sheet.
 def fold_paper(width, height, folds):
-    pass
+
+    width = float(width)
+    height = float(height)
+
+    if width == 0 and height == 0:
+        return (0, 0)
+    elif folds == 0:
+        return (width, height)
+    elif height >= width:
+        return fold_paper(width, height/2, folds-1)
+    elif width > height:
+        return fold_paper(width/2, height, folds-1)
 
 # Count up
 # Print all the numbers from n to target

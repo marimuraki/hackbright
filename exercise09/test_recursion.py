@@ -45,7 +45,8 @@ class TestRecursiveOperations(unittest.TestCase):
         self.assertEqual(palindrome(self.pstring), True)
 
     def test_fold_paper(self):
-        pass
+        self.assertEqual(fold_paper(10, 0, 1), (5, 0))
+        self.assertEqual(fold_paper(10, 8, 2), (5, 4))
 
     def test_count_up(self):
         pass
